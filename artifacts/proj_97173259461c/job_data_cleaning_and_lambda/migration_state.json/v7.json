@@ -1,0 +1,10 @@
+{
+  "job_name": "data_cleaning_and_lambda",
+  "source_file": "data_cleaning_and_lambda.py",
+  "source_hash": "sha256:6a6cbda0674367b3df4eb0e229332f074398be6f85ec8c2a8e7e7e4f0def00b7",
+  "prompt_version": "1.0",
+  "stages_completed": [
+    "IMPLEMENTING",
+    "REVIEWING"
+  ]
+}

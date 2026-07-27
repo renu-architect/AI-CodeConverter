@@ -1,0 +1,82 @@
+{
+  "project_id": "proj_97173259461c",
+  "repo_path": "C:\\Users\\rtaditoti\\AI-SDLC\\GlueRepo",
+  "repo_hash": "sha256:6a6cbda0674367b3df4eb0e229332f074398be6f85ec8c2a8e7e7e4f0def00b7",
+  "scanned_at": "2026-07-27T08:17:20.541153Z",
+  "glue_jobs": [
+    {
+      "name": "data_cleaning_and_lambda",
+      "file_path": "data_cleaning_and_lambda.py",
+      "entry_point": "__main__",
+      "ast_summary": {
+        "imports": [
+          "awsglue.context.GlueContext",
+          "awsglue.dynamicframe.DynamicFrame",
+          "awsglue.job.Job",
+          "awsglue.utils.getResolvedOptions",
+          "pyspark.context.SparkContext",
+          "pyspark.sql.functions.udf",
+          "pyspark.sql.types.StringType",
+          "sys"
+        ],
+        "functions": [],
+        "classes": [],
+        "variables": [
+          "chop_f",
+          "db_name",
+          "glueContext",
+          "medicare_df",
+          "medicare_dyf",
+          "medicare_nest",
+          "medicare_res",
+          "medicare_tmp",
+          "output_dir",
+          "tbl_name"
+        ],
+        "glue_api_calls": [
+          {
+            "api": "GlueContext",
+            "line": 13,
+            "args_summary": ""
+          },
+          {
+            "api": "glueContext.create_dynamic_frame.from_catalog",
+            "line": 23,
+            "args_summary": "database=db_name, table_name=tbl_name"
+          },
+          {
+            "api": "DynamicFrame.fromDF",
+            "line": 39,
+            "args_summary": "medicare_df, glueContext, nested"
+          },
+          {
+            "api": "glueContext.write_dynamic_frame.from_options",
+            "line": 54,
+            "args_summary": "frame=medicare_nest, connection_type=s3"
+          }
+        ],
+        "line_count": 54
+      },
+      "complexity_score": 9.8,
+      "dependencies": [],
+      "sql_files": [],
+      "config_files": []
+    }
+  ],
+  "dependency_graph": {
+    "nodes": [
+      {
+        "file_path": "data_cleaning_and_lambda.py",
+        "imports": [],
+        "imported_by": []
+      }
+    ],
+    "glue_jobs": [
+      "data_cleaning_and_lambda.py"
+    ]
+  },
+  "shared_libraries": [],
+  "total_files": 1,
+  "total_lines": 54,
+  "overall_complexity": 9.8
+}

@@ -1,21 +1,15 @@
 # Git ignore for AI-SDLC
 
-# Secrets
-config/user.yaml
-.env
+# Secrets (never commit)
 
-# Runtime data
-cache/
-artifacts/
-outputs/
-logs/
-knowledge/vector_db/
-history/*.db
 
-# Python
-__pycache__/
-*.pyc
-*.pyo
+# Runtime / generated (do not commit)
+
+
+# Migration outputs — ignore all job folders except the demo bundle
+
+
+# Python virtual environments
 .venv/
 venv/
 AI-SDLC/
@@ -23,9 +17,15 @@ dist/
 *.egg-info/
 .eggs/
 
-# IDE
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE / editor
 .idea/
 .vscode/
+.cursor/
 *.swp
 *.swo
 
@@ -33,7 +33,5 @@ dist/
 .DS_Store
 Thumbs.db
 
-# Test
-.pytest_cache/
-.coverage
-htmlcov/
+# Test / coverage
+

@@ -4,10 +4,12 @@ Enterprise AI-powered SDLC framework for migrating AWS Glue ETL jobs to Azure Sy
 
 ## Quick Start
 
-1. Copy `config/.env.example` to `.env` in the project root (or edit the existing `.env`)
-2. Set your Claude API key: `ANTHROPIC_API_KEY=sk-ant-your-key-here`
-3. Install and run tests: `pip install -e .` then `pytest tests/ -v`
-4. Start the UI: `streamlit run frontend/app.py`
+1. Clone the repo and install: `pip install -e .`
+2. **Demo (no API key):** `streamlit run frontend/app.py` → use **Run Demo Pipeline (0 tokens)**
+3. **Live migration:** copy `config/.env.example` to `.env` and set `ANTHROPIC_API_KEY`
+4. Run tests: `pytest tests/ -v`
+
+See [Demo Deployment](docs/DEMO-DEPLOYMENT.md) for what is committed to Git vs kept local.
 
 The API key from `.env` is loaded automatically and used by `gateway/` for all Claude API calls.
 

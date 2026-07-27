@@ -1,0 +1,66 @@
+import pytest
+from pyspark.sql import SparkSession
+from pyspark.sql.types import DoubleType, LongType, StringType, StructType, StructField
+from pyspark.sql.functions import col, udf, when
+
+@pytest.fixture(scope="session")
+def spark():
+    return (
+        SparkSession.builder
+        .master("local[1]")
+        .appName("test_data_cleaning")
+        .getOrCreate()
+    )
+
+# --- UDF under test (mirrors production implementation) ---
+def _strip_leading_char(value: str):
+    if value is None:
+        return None
+    return float(value.lstrip("$"))
+
+strip_currency_udf = udf(_strip_leading_char, DoubleType())
+
+# U1 — normal dollar-prefixed string
+def test_strip_currency_normal(spark):
+    df = spark.createDataFrame([("$1234.56",)], ["amount"])
+    result = df.withColumn("parsed", strip_currency_udf(col("amount")))
+    assert result.collect()[0]["parsed"] == pytest.approx(1234.56)
+
+# U2 — null input must not raise, must return None
+def test_strip_currency_null_safe(spark):
+    df = spark.createDataFrame([(None,)], ["amount"])
+    result = df.withColumn("parsed", strip_currency_udf(col("amount")))
+    assert result.collect()[0]["parsed"] is None
+
+# U3 + U4 — provider ID cast and null-filter
+def test_provider_id_cast_and_filter(spark):
+    schema = StructType([StructField("provider id", StringType(), True)])
+    data = [("12345",), ("abc",), (None,)]
+    df = spark.createDataFrame(data, schema)
+
+    cleaned = (
+        df.withColumn("provider_id_long",
+                      col("`provider id`").cast(LongType()))
+          .filter(col("provider_id_long").isNotNull())
+    )
+    rows = cleaned.collect()
+    assert len(rows) == 1          # only "12345" survives
+    assert rows[0]["provider_id_long"] == 12345
+
+# E1 — empty source
+def test_empty_source(spark):
+    schema = StructType([StructField("provider id", StringType(), True)])
+    df = spark.createDataFrame([], schema)
+    result = df.filter(col("`provider id`").cast(LongType()).isNotNull())
+    assert result.count() == 0
+
+# E3 — ZIP non-numeric row retained with null zip
+def test_zip_nonNumeric_row_retained(spark):
+    schema = StructType([StructField("provider zip code", StringType(), True)])
+    data = [("90210",), ("9021O",)]   # second has letter O
+    df = spark.createDataFrame(data, schema)
+    result = df.withColumn("zip_long",
+                           col("`provider zip code`").cast(LongType()))
+    rows = result.collect()
+    assert len(rows) == 2            # no rows dropped
+    assert rows[1]["zip_long"] is None
