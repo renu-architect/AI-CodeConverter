@@ -1,0 +1,27 @@
+name: validator
+version: "1.0"
+expected_format: markdown
+max_output_tokens: 4096
+system: ""
+template: |
+  TASK: Validate converted Synapse code semantic correctness.
+
+  INPUT:
+  Job: {{job_name}}
+
+  Understanding:
+  {{understanding_md}}
+
+  Migration Plan:
+  {{plan_md}}
+
+  Converted Code:
+  {{converted_code}}
+
+  Review:
+  {{review_md}}
+
+  RULES:
+  {{quality_rules}}
+
+  OUTPUT: Validation.md schema with Category Scores table and Overall Score.

@@ -1,0 +1,64 @@
+---
+description: AI-SDLC Framework development rules for Cursor
+globs:
+  - "**/*.py"
+  - "**/*.yaml"
+  - "prompts/**"
+alwaysApply: true
+---
+
+# AI-SDLC Framework — Cursor Development Rules
+
+## Project Context
+Enterprise multi-agent system migrating AWS Glue ETL → Azure Synapse Spark Python.
+Documentation: `docs/`. Start with `docs/01-CURSOR-IMPLEMENTATION-GUIDE.md`.
+
+## Architecture Rules (MANDATORY)
+1. **Only `gateway/` calls Claude API.** No `import anthropic` elsewhere.
+2. **Only `orchestrator/` invokes agents.** No agent-to-agent calls.
+3. **Scanner (`parser/`) is deterministic.** No LLM calls in scanner.
+4. **Frontend goes through orchestrator.** No direct agent or gateway access from UI.
+5. **Agents exchange structured artifacts** (Markdown/JSON). Never pass chat history.
+
+## Code Standards
+- Python 3.12, type hints on all public functions
+- PEP8, structured logging via `utils/logging.py`
+- Configuration via YAML (`config/`), no hardcoded values
+- Pydantic models for all data contracts (`docs/04-INTERFACES-AND-CONTRACTS.md`)
+- Custom exceptions from `utils/exceptions.py`
+- Async where I/O bound (gateway, orchestrator, agents)
+
+## LLM Rules
+- Temperature: 0, top_p: 0.1
+- Prompts in `prompts/*.yaml` — caveman format (Task/Input/Rules/Output)
+- Context compression before every LLM call
+- Cache by content hash
+- Log every call: tokens, cost, latency
+
+## Implementation Order
+Build one module per session. Follow `docs/01-CURSOR-IMPLEMENTATION-GUIDE.md` phases.
+Do NOT generate the entire application in one step.
+
+## Testing
+- Unit test every module before moving on
+- Mock gateway in agent tests (no real API calls)
+- Run `pytest tests/<module>/ -v` after each module
+- Architecture test: `tests/test_architecture.py` enforces import boundaries
+
+## Artifact Rules
+- All agent outputs match schemas in `docs/05-ARTIFACT-SPECIFICATIONS.md`
+- Versioned storage: never overwrite, always increment version
+- Content hash (SHA-256) on every write
+
+## When Implementing an Agent
+1. Extend `BaseAgent` from `agents/base_agent.py`
+2. Load prompt from `prompts/{agent_name}.yaml`
+3. Call `self.gateway.complete()` — never anthropic directly
+4. Save output via `self.save_artifact()`
+5. Return `AgentResult` with tokens/cost/duration
+
+## File Naming
+- Agents: `agents/{name}/agent.py`
+- Tests: `tests/{module}/test_{name}.py`
+- Prompts: `prompts/{name}.yaml`
+- Config: `config/default.yaml`

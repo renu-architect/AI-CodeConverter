@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-sdlc"
+version = "1.0.0"
+description = "Enterprise AI-powered SDLC framework for AWS Glue to Azure Synapse migration"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "streamlit>=1.30.0",
+    "anthropic>=0.40.0",
+    "chromadb>=0.4.22",
+    "sentence-transformers>=2.3.0",
+    "diskcache>=5.6.3",
+    "pyyaml>=6.0.1",
+    "pydantic>=2.5.0",
+    "sqlalchemy>=2.0.25",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-mock>=3.12.0",
+    "tiktoken>=0.5.2",
+    "jinja2>=3.1.3",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.1.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "utils*",
+    "gateway*",
+    "parser*",
+    "artifacts*",
+    "orchestrator*",
+    "agents*",
+    "knowledge*",
+    "history*",
+    "frontend*",
+    "demo*",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100

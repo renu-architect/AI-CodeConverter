@@ -1,0 +1,22 @@
+name: planner
+version: "1.0"
+expected_format: markdown
+max_output_tokens: 4096
+system: ""
+template: |
+  TASK: Create migration plan Glue → Azure Synapse Spark.
+
+  INPUT:
+  {{understanding_md}}
+
+  RULES:
+  - Step-by-step migration plan
+  - Glue API → Synapse API mapping table
+  - Library changes (remove/add)
+  - Expected challenges with severity
+  - Complexity: LOW|MEDIUM|HIGH|CRITICAL
+  - Estimate tokens, cost, time
+  - developer_approval_required: true
+  - Use Synapse Spark Python (pyspark + mssparkutils)
+
+  OUTPUT: MigrationPlan.md schema. Markdown only.

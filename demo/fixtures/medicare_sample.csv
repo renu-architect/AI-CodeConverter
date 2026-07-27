@@ -1,0 +1,6 @@
+drg definition,provider id,provider name,provider city,provider state,provider zip code,hospital referral region description,average covered charges,average total payments,average medicare payments
+001 - HEART FAILURE,100001,Metro General,Boston,MA,02115,New England,$45231,$8234,$6123
+002 - KNEE REPLACEMENT,100002,Valley Medical,Phoenix,AZ,85001,Southwest,$38900,$7100,$5400
+003 - APPENDECTOMY,bad-id,Bad Record Clinic,Denver,CO,80202,Mountain,,,
+004 - HIP REPLACEMENT,100004,Lakeside Health,Chicago,IL,60601,Midwest,$52100,$9800,$7200
+005 - PNEUMONIA,100005,Coastal Care,Miami,FL,33101,South,$29800,$5400,$4100

@@ -1,0 +1,22 @@
+name: tester
+version: "1.0"
+expected_format: markdown
+max_output_tokens: 4096
+system: ""
+template: |
+  TASK: Generate test cases for converted Synapse ETL job.
+
+  INPUT:
+  Job: {{job_name}}
+
+  Understanding:
+  {{understanding_md}}
+
+  Converted Code:
+  {{converted_code}}
+
+  RULES:
+  {{quality_rules}}
+
+  OUTPUT: TestCases.md schema with Unit Tests, Integration Tests, Edge Cases tables.
+  Include generated pytest code.

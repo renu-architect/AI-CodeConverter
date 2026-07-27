@@ -1,0 +1,39 @@
+# Git ignore for AI-SDLC
+
+# Secrets
+config/user.yaml
+.env
+
+# Runtime data
+cache/
+artifacts/
+outputs/
+logs/
+knowledge/vector_db/
+history/*.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+AI-SDLC/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/

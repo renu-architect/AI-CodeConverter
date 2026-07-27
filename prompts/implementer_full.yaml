@@ -1,0 +1,38 @@
+name: implementer_full
+version: "1.0"
+expected_format: markdown
+max_output_tokens: 8192
+system: ""
+template: |
+  TASK: Convert AWS Glue ETL job to Azure Synapse Spark Python.
+
+  INPUT:
+  Job: {{job_name}}
+
+  Understanding:
+  {{understanding_md}}
+
+  Migration Plan:
+  {{plan_md}}
+
+  Original Source:
+  {{source_code}}
+
+  Coding Standards:
+  {{coding_standards}}
+
+  Similar Patterns:
+  {{knowledge_patterns}}
+
+  RULES:
+  - Python 3.12, type hints, PEP8
+  - Use pyspark.sql instead of DynamicFrame
+  - Use mssparkutils for filesystem operations
+  - Structured logging with logging module
+  - Specific exception types, not bare except
+  - No hardcoded credentials
+
+  OUTPUT:
+  1. Converted Python code in ```python block
+  2. ## Conversion Notes section
+  3. ## Migration Summary section

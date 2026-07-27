@@ -1,0 +1,87 @@
+app:
+  name: "AI-SDLC Framework"
+  version: "1.0.0"
+  log_level: "INFO"
+  output_dir: "outputs/"
+  artifacts_dir: "artifacts/"
+
+claude:
+  model: "claude-sonnet-4-6"
+  temperature: 0.0
+  max_retries: 3
+  timeout_seconds: 120
+
+agents:
+  max_context_tokens: 24000
+  max_output_tokens: 4096
+  prompt_version: "1.0"
+  validation_threshold: 85
+  max_implement_iterations: 3
+  max_review_iterations: 3
+  reuse_artifacts: true
+  poc_mode: true  # Relaxed review/validation for demos; set false for production rigor
+
+prompts:
+  mode: "on"  # off | on | medium | pro | ultra
+
+demo:
+  enabled: true
+  default_repo: "GlueRepo"
+  default_job: "data_cleaning_and_lambda"
+  stage_delay_seconds: 0.35
+  auto_approve_plan: true
+
+cache:
+  enabled: true
+  directory: "cache/"
+  ttl_seconds: 86400
+
+knowledge:
+  embedding_model: "all-MiniLM-L6-v2"
+  chroma_persist_dir: "knowledge/vector_db/"
+  top_k: 5
+  collections:
+    - glue_patterns
+    - synapse_patterns
+    - corrections
+    - business_rules
+
+database:
+  url: "sqlite:///history/aisdlc.db"
+
+scanner:
+  max_file_size_mb: 10
+  ignore_patterns:
+    - "__pycache__"
+    - ".git"
+    - "node_modules"
+    - "*.pyc"
+    - ".venv"
+
+observability:
+  langfuse:
+    enabled: false
+    host: "https://cloud.langfuse.com"
+  opentelemetry:
+    enabled: false
+    service_name: "ai-sdlc"
+    endpoint: "http://localhost:4317"
+
+coding_standards:
+  python_version: "3.12"
+  style: "PEP8"
+  type_hints: true
+  logging_module: "logging"
+  error_handling: true
+  rules:
+    - "Use pyspark.sql functions, not RDD API"
+    - "Use mssparkutils for filesystem operations"
+    - "Structured logging with logging module"
+    - "Specific exception types, not bare except"
+    - "No hardcoded credentials or connection strings"
+    - "Docstrings on public functions"
+    - "Constants in UPPER_CASE at module level"
+
+cost_estimation:
+  input_price_per_million: 3.0
+  output_price_per_million: 15.0

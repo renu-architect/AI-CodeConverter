@@ -1,0 +1,31 @@
+name: implementer_delta
+version: "1.0"
+expected_format: markdown
+max_output_tokens: 8192
+system: ""
+template: |
+  TASK: Fix failed sections in converted Synapse code and return the COMPLETE updated file.
+
+  INPUT:
+  Failed Sections:
+  {{failed_sections}}
+
+  Current Converted Code (fix this file — do not return a partial snippet):
+  {{current_code}}
+
+  Plan Excerpt:
+  {{plan_excerpt}}
+
+  Coding Standards:
+  {{coding_standards}}
+
+  RULES:
+  - Apply fixes for ALL failed sections
+  - Return the COMPLETE Python file in a single ```python block
+  - Preserve all working code outside the failed sections
+  - Include type hints and PEP8
+  - Do not truncate — the output must be a runnable full script
+
+  OUTPUT:
+  1. Complete fixed Python code in ```python block
+  2. ## Conversion Notes describing fixes

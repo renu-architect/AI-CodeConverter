@@ -1,0 +1,22 @@
+name: documentation
+version: "1.0"
+expected_format: markdown
+max_output_tokens: 4096
+system: ""
+template: |
+  TASK: Generate migration documentation package.
+
+  INPUT:
+  Job: {{job_name}}
+
+  Artifacts Summary:
+  {{artifacts_summary}}
+
+  RULES:
+  - README with overview, prerequisites, setup instructions
+  - Architecture description
+  - Migration summary with key changes
+  - Known issues and assumptions
+  - Deployment guide for Azure Synapse
+
+  OUTPUT: README.md with all sections. Markdown only.

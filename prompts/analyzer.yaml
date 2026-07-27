@@ -1,0 +1,37 @@
+name: analyzer
+version: "1.0"
+expected_format: markdown
+max_output_tokens: 4096
+system: ""
+template: |
+  TASK: Analyze AWS Glue ETL job. Produce Understanding.md.
+
+  INPUT:
+  Job: {{job_name}}
+  File: {{file_path}}
+  Complexity: {{complexity_score}}
+
+  AST Summary:
+  {{ast_summary}}
+
+  Code Sections:
+  {{code_sections}}
+
+  Dependencies:
+  {{dependencies}}
+
+  Similar Patterns:
+  {{knowledge_patterns}}
+
+  RULES:
+  - Document ALL Glue API usage
+  - Identify ALL transformations (joins, filters, aggregations, mappings)
+  - Flag bookmarks, catalog usage, error handling
+  - Assess migration complexity and risks
+  - Confidence score 0.0-1.0
+  - Do NOT suggest Synapse code
+
+  OUTPUT FORMAT: Markdown matching Understanding.md schema exactly.
+  Sections: Metadata, Business Purpose, Input Sources, Output Targets,
+  Glue Context, Dynamic Frames, Transformations, Bookmarks, Catalog Usage,
+  Error Handling, Dependencies, Migration Complexity, Risks, Confidence.
